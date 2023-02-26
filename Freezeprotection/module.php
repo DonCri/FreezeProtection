@@ -126,7 +126,7 @@ class Freezeprotection extends IPSModule {
 			if($tempSensor < $temperatureSollToActivate) {
 				SetValue($this->GetIDForIdent("TemperatureReached"), true);
 			} elseif ($tempSensor > $temperatureSollToDeactiveate) {
-				SetValue($this->GetIDForIdent("TemperatureReached"), true);
+				SetValue($this->GetIDForIdent("TemperatureReached"), false);
 			}
 	}
 
