@@ -55,7 +55,7 @@ class Freezeprotection extends IPSModule {
 				
 		
 		// Set timer for delayed rain deactivation 
-		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck(\'$\'_IPS[\'TARGET\']);"); 
+		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck(\'$\'_IPS[\''TARGET'\']);"); 
 	
 	}
 
@@ -121,11 +121,11 @@ class Freezeprotection extends IPSModule {
 
 	public function TemperatureCheck() {
 			$tempSensor = $this->ReadPropertyInteger("TemperatureSensor");
-			$temperatureSollToActiveate = GetValue($this->GetIDForIdent("SollTempToActivate"));
-			$temperatureSollToDeactiveate = GetValue($this->GetIDForIdent("SollTempToDeactivate"));
+			$temperatureSollToActivate = GetValue($this->GetIDForIdent("SollTempToActivate"));
+			$temperatureSollToDeactivate = GetValue($this->GetIDForIdent("SollTempToDeactivate"));
 			if($tempSensor < $temperatureSollToActivate) {
 				SetValue($this->GetIDForIdent("TemperatureReached"), true);
-			} elseif ($tempSensor > $temperatureSollToDeactiveate) {
+			} elseif ($tempSensor > $temperatureSollToDeactivate) {
 				SetValue($this->GetIDForIdent("TemperatureReached"), false);
 			}
 	}
