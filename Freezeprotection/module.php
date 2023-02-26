@@ -108,35 +108,35 @@ class Freezeprotection extends IPSModule {
 
 	public function RainCheck() {
 			$rainSensor = $this->ReadPropertyInteger("RainSensor");
-			$rainDelay = GetValue($this->GetIDForIdent("RainDelayActive"));
-			$rainDelayInterval = GetValue($this->GetIDForIdent("RainDelay")) * 3600000; // Intervalltime in milliseconds
+			$rainDelay = $this->GetValue("RainDelayActive");
+			$rainDelayInterval = $this->GetValue("RainDelay") * 3600000; // Intervalltime in milliseconds
 			if($rainSensor && !$rainDelay) {
 				SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
-				SetValue($this->GetIDForIdent("RainDelayActive"), true);
+				$this->SetValue("RainDelayActive", true);
 			} else {
 				SetTimerInterval("TimerForRainDelay", 0);
-				SetValue($this->GetIDForIdent("RainDelayActive"), false);
+				$this->SetValue("RainDelayActive", false);
 			}	
 	}
 
 	public function TemperatureCheck() {
 			$tempSensor = $this->ReadPropertyInteger("TemperatureSensor");
-			$temperatureSollToActivate = GetValue($this->GetIDForIdent("SollTempToActivate"));
-			$temperatureSollToDeactivate = GetValue($this->GetIDForIdent("SollTempToDeactivate"));
+			$temperatureSollToActivate = $this->GetValue("SollTempToActivate");
+			$temperatureSollToDeactivate = $this->GetValue("SollTempToDeactivate");
 			if($tempSensor < $temperatureSollToActivate) {
-				SetValue($this->GetIDForIdent("TemperatureReached"), true);
+				$this->SetValue("TemperatureReached", true);
 			} elseif ($tempSensor > $temperatureSollToDeactivate) {
-				SetValue($this->GetIDForIdent("TemperatureReached"), false);
+				$this->SetValue("TemperatureReached", false);
 			}
 	}
 
 	public function FreezeCheck() {
-			$rain = GetValue($this->GetIDForIdent("RainDelayActive"));
-			$tempReached = GetValue($this->GetIDForIdent("TemperatureReached"));
+			$rain = $this->GetValue("RainDelayActive");
+			$tempReached = $this->GetValue("TemperatureReached");
 		  	if($rain && $tempReached) {
-				SetValue($this->GetIDForIdent("FreezeAlert"), true);
+				$this->SetValue("FreezeAlert", true);
 			} else {
-				SetValue($this->GetIDForIdent("FreezeAlert"), false);
+				$this->SetValue("FreezeAlert", false);
 			}
 	}
 	
