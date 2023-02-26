@@ -36,7 +36,7 @@ class Freezeprotection extends IPSModule {
 			IPS_SetVariableProfileValues("FreezeRainSince", 0, 10, 1);
 		}
             
-		// Necessary variablen
+		// Variablen
 		$this->RegisterVariableBoolean("STATUS", "Status", "FreezeState", 0);
 		$this->RegisterVariableInteger("SollTempToActivate", "Frostschutz aktiv wen Temperatur unter:", "FreezeTempSoll", 1);
 		$this->RegisterVariableInteger("SollTempToDeactivate", "Frostschutz deaktivieren wen Temperatur über:", "FreezeTempSoll", 2);
@@ -49,12 +49,12 @@ class Freezeprotection extends IPSModule {
 		$this->RegisterPropertyInteger("TemperatureSensor", 0);
 		$this->RegisterPropertyInteger("RainSensor", 0);
 
-		// Attribute
+		// Attributes
 		$this->RegisterAttributeBoolean("RainDelayActive", false);
 		$this->RegisterAttributeBoolean("TemperatureReached", false); 
 		
 		// Set timer for delayed rain deactivation 
-		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck($_IPS[\'TARGET\']);"); 
+		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck(\'$\'_IPS[\'TARGET\']);"); 
 	
 	}
 
