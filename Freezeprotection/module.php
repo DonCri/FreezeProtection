@@ -41,17 +41,18 @@ class Freezeprotection extends IPSModule {
 		$this->RegisterVariableInteger("SollTempToActivate", "Frostschutz aktiv wen Temperatur unter:", "FreezeTempSoll", 1);
 		$this->RegisterVariableInteger("SollTempToDeactivate", "Frostschutz deaktivieren wen Temperatur über:", "FreezeTempSoll", 2);
 		$this->EnableAction("SollTempToDeactivate");
-		$this->RegisterVariableInteger("RainDelay", "Zeitraum letzer Regendetektierung:", "FreezeRainSince", 3);
+		$this->RegisterVariableBoolean("TemperatureReached", "Temperatur unterschritten", "", 3); 
+		$this->RegisterVariableInteger("RainDelay", "Zeitraum letzer Regendetektierung:", "FreezeRainSince", 4);
 		$this->EnableAction("RainDelay");
-		$this->RegisterVariableBoolean("FreezeAlert", "Frostalarm", "FreezeState", 4);
+		$this->RegisterVariableBoolean("RainDelayActive", "Regen aktiv", "", 5);
+		$this->RegisterVariableBoolean("FreezeAlert", "Frostalarm", "FreezeState", 6);
             
         // Save propertys
 		$this->RegisterPropertyInteger("TemperatureSensor", 0);
 		$this->RegisterPropertyInteger("RainSensor", 0);
 
 		// Attributes
-		$this->RegisterAttributeBoolean("RainDelayActive", false);
-		$this->RegisterAttributeBoolean("TemperatureReached", false); 
+				
 		
 		// Set timer for delayed rain deactivation 
 		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck(\'$\'_IPS[\'TARGET\']);"); 
@@ -107,14 +108,14 @@ class Freezeprotection extends IPSModule {
 
 	public function RainCheck() {
 			$rainSensor = $this->ReadPropertyInteger("RainSensor");
-			$rainDelay = $this->ReadAttributeBoolean("RainDelayActive");
+			$rainDelay = GetValue($this->GetIDForIdent("RainDelayActive"));
 			$rainDelayInterval = GetValue($this->GetIDForIdent("RainDelay")) * 3600000; // Intervalltime in milliseconds
 			if($rainSensor && !$rainDelay) {
 				SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
-				$this->WriteAttributeBoolean("RainDelayActive", true); 
+				SetValue($this->GetIDForIdent("RainDelayActive"), true);
 			} else {
 				SetTimerInterval("TimerForRainDelay", 0);
-				$this->WriteAttributeBoolean("RainDelayActive", false);
+				SetValue($this->GetIDForIdent("RainDelayActive"), false);
 			}	
 	}
 
@@ -123,15 +124,15 @@ class Freezeprotection extends IPSModule {
 			$temperatureSollToActiveate = GetValue($this->GetIDForIdent("SollTempToActivate"));
 			$temperatureSollToDeactiveate = GetValue($this->GetIDForIdent("SollTempToDeactivate"));
 			if($tempSensor < $temperatureSollToActivate) {
-				$this->WriteAttributeBoolean("TemperatureReached", true); 
+				SetValue($this->GetIDForIdent("TemperatureReached"), true);
 			} elseif ($tempSensor > $temperatureSollToDeactiveate) {
-				$this->WriteAttributeBoolean("TemperatureReached", false); 
+				SetValue($this->GetIDForIdent("TemperatureReached"), true);
 			}
 	}
 
 	public function FreezeCheck() {
-			$rain = $this->ReadAttributeBoolean("RainDelayActive");	
-			$tempReached = $this->ReadAttributeBoolean("TemperatureReached");
+			$rain = GetValue($this->GetIDForIdent("RainDelayActive"));
+			$tempReached = GetValue($this->GetIDForIdent("TemperatureReached"));
 		  	if($rain && $tempReached) {
 				SetValue($this->GetIDForIdent("FreezeAlert"), true);
 			} else {
