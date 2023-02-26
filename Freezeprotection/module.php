@@ -104,7 +104,7 @@ class Freezeprotextion extends IPSModule {
 					}
 		}
 
-	public function RainCheck() 
+	public function RainCheck() {
 			$rainSensor = $this->ReadPropertyInteger("RainSensor");
 			$rainDelay = $this->ReadAttributeBoolean("RainDelayActive");
 			$rainDelayInterval = GetValue($this->GetIDForIdent("RainDelay")) * 3600000; // Intervalltime in milliseconds
