@@ -1,0 +1,14 @@
+{
+    "id": "{2D56E061-F05B-F138-1F4A-668C537239D7}",
+    "name": "Freezeprotection",
+    "type": 3,
+    "vendor": "BRELAG",
+    "aliases":
+        [
+            "Brelag Frostschutz"
+        ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "BRELAG"
+}
