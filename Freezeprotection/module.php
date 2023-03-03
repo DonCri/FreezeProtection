@@ -17,11 +17,11 @@ class Freezeprotection extends IPSModule {
         parent::Create();
             
         // Profiles
-       if(!IPS_VariableProfileExists("FreezeState")) {
+		if(!IPS_VariableProfileExists("FreezeState")) {
 		 	IPS_CreateVariableProfile("FreezeState", 0); // 0 = Boolean, 1 = Integer, 2 = Float, 3 = String
 			IPS_SetVariableProfileAssociation("FreezeState", true, "Aktiv", "", 0x5CFF0E); 
 			IPS_SetVariableProfileAssociation("FreezeState", false, "Inaktiv", "", ""); 
-	   }	
+		}	
 
 	   	
 		if(!IPS_VariableProfileExists("FreezeTempSoll")) {
@@ -60,23 +60,23 @@ class Freezeprotection extends IPSModule {
 	}
 
     public function RequestAction($Ident, $Value) {
-			switch ($Ident) {
-  				case "STATUS":
-  						SetValue($this->GetIDForIdent($Ident), $Value);
-				break;
+		switch ($Ident) {
+  			case "STATUS":
+  				SetValue($this->GetIDForIdent($Ident), $Value);
+			break;
 
-				case "SollTempToActivate":
-						SetValue($this->GetIDForIdent($Ident), $Value);
-				break;
+			case "SollTempToActivate":
+				SetValue($this->GetIDForIdent($Ident), $Value);
+			break;
 
-				case "SollTempToDeactivate":
-						SetValue($this->GetIDForIdent($Ident), $Value);
-				break;
+			case "SollTempToDeactivate":
+				SetValue($this->GetIDForIdent($Ident), $Value);
+			break;
 
-				case "RainDelay":
-						SetValue($this->GetIDForIdent($Ident), $Value);
-				break;
-			}      
+			case "RainDelay":
+				SetValue($this->GetIDForIdent($Ident), $Value);
+			break;
+		}      
     }
 
     public function ApplyChanges() {
@@ -90,54 +90,54 @@ class Freezeprotection extends IPSModule {
 	
     
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
-				$temperaturesensor = $this->ReadPropertyInteger("TemperatureSensor");
-				$rainsensor = $this->ReadPropertyInteger("RainSensor"); 
+		$temperaturesensor = $this->ReadPropertyInteger("TemperatureSensor");
+		$rainsensor = $this->ReadPropertyInteger("RainSensor"); 
 
-					switch ($SenderID) {
-							case $temperaturesensor:
-								$this->TemperatureCheck();
-								$this->FreezeCheck();
-							break;
+		switch($SenderID) {
+			case $temperaturesensor:
+				$this->TemperatureCheck();
+				$this->FreezeCheck();
+			break;
 
-							case $rainsensor:
-								$this->RainCheck();  
-								$this->FreezeCheck();
-							break;
-					}
+			case $rainsensor:
+				$this->RainCheck();  
+				$this->FreezeCheck();
+			break;
 		}
+	}
 
 	public function RainCheck() {
-			$rainSensor = $this->ReadPropertyInteger("RainSensor");
-			$rainDelay = $this->GetValue("RainDelayActive");
-			$rainDelayInterval = $this->GetValue("RainDelay") * 3600000; // Intervalltime in milliseconds
-			if($rainSensor && !$rainDelay) {
-				SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
-				$this->SetValue("RainDelayActive", true);
-			} else {
-				SetTimerInterval("TimerForRainDelay", 0);
-				$this->SetValue("RainDelayActive", false);
-			}	
+		$rainSensor = GetValue($this->ReadPropertyInteger("RainSensor"));
+		$rainDelay = $this->GetValue("RainDelayActive");
+		$rainDelayInterval = $this->GetValue("RainDelay") * 3600000; // Intervalltime in milliseconds
+		if($rainSensor && !$rainDelay) {
+			SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
+			$this->SetValue("RainDelayActive", true);
+		} else {
+			SetTimerInterval("TimerForRainDelay", 0);
+			$this->SetValue("RainDelayActive", false);
+		}	
 	}
 
 	public function TemperatureCheck() {
-			$tempSensor = $this->ReadPropertyInteger("TemperatureSensor");
-			$temperatureSollToActivate = $this->GetValue("SollTempToActivate");
-			$temperatureSollToDeactivate = $this->GetValue("SollTempToDeactivate");
-			if($tempSensor < $temperatureSollToActivate) {
-				$this->SetValue("TemperatureReached", true);
-			} elseif ($tempSensor > $temperatureSollToDeactivate) {
-				$this->SetValue("TemperatureReached", false);
-			}
+		$tempSensor = GetValue($this->ReadPropertyInteger("TemperatureSensor"));
+		$temperatureSollToActivate = $this->GetValue("SollTempToActivate");
+		$temperatureSollToDeactivate = $this->GetValue("SollTempToDeactivate");
+		if($tempSensor < $temperatureSollToActivate) {
+			$this->SetValue("TemperatureReached", true);
+		} elseif ($tempSensor > $temperatureSollToDeactivate) {
+			$this->SetValue("TemperatureReached", false);
+		}
 	}
 
 	public function FreezeCheck() {
-			$rain = $this->GetValue("RainDelayActive");
-			$tempReached = $this->GetValue("TemperatureReached");
-		  	if($rain && $tempReached) {
-				$this->SetValue("FreezeAlert", true);
-			} else {
-				$this->SetValue("FreezeAlert", false);
-			}
+		$rain = $this->GetValue("RainDelayActive");
+		$tempReached = $this->GetValue("TemperatureReached");
+	  	if($rain && $tempReached) {
+			$this->SetValue("FreezeAlert", true);
+		} else {
+			$this->SetValue("FreezeAlert", false);
+		}
 	}
 	
 }
