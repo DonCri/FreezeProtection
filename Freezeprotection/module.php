@@ -38,7 +38,9 @@ class Freezeprotection extends IPSModule {
             
 		// Variablen
 		$this->RegisterVariableBoolean("STATUS", "Status", "FreezeState", 0);
+		$this->EnableAction("STATUS"); 
 		$this->RegisterVariableInteger("SollTempToActivate", "Frostschutz aktiv wen Temperatur unter:", "FreezeTempSoll", 1);
+		$this->EnableAction("SollTempToActivate"); 
 		$this->RegisterVariableInteger("SollTempToDeactivate", "Frostschutz deaktivieren wen Temperatur über:", "FreezeTempSoll", 2);
 		$this->EnableAction("SollTempToDeactivate");
 		$this->RegisterVariableBoolean("TemperatureReached", "Temperatur unterschritten", "", 3); 
