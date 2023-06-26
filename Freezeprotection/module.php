@@ -20,7 +20,7 @@ class Freezeprotection extends IPSModule {
 		if(!IPS_VariableProfileExists("FreezeState")) {
 		 	IPS_CreateVariableProfile("FreezeState", 0); // 0 = Boolean, 1 = Integer, 2 = Float, 3 = String
 			IPS_SetVariableProfileAssociation("FreezeState", true, "Aktiv", "", 0x5CFF0E); 
-			IPS_SetVariableProfileAssociation("FreezeState", false, "Inaktiv", "", ""); 
+			IPS_SetVariableProfileAssociation("FreezeState", false, "Inaktiv", ""); 
 		}	
 
 	   	
