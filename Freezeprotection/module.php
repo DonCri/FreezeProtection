@@ -14,7 +14,7 @@ class Freezeprotection extends IPSModule {
 
     // Überschreibt die interne IPS_Create($id) Funktion
     public function Create() {
-        parent::Create();
+      parent::Create();
             
         // Profiles
 		if(!IPS_VariableProfileExists("FreezeState")) {
@@ -55,7 +55,7 @@ class Freezeprotection extends IPSModule {
 				
 		
 		// Set timer for delayed rain deactivation 
-		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck($_IPS[\'TARGET\']);"); 
+		//$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck($_IPS[\'TARGET\']);"); 
 	
 	}
 
@@ -86,8 +86,6 @@ class Freezeprotection extends IPSModule {
 		$this->RegisterMessage($this->ReadPropertyInteger("TemperatureSensor"), 10603);
         $this->RegisterMessage($this->ReadPropertyInteger("RainSensor"), 10603);
     }
-
-	
     
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
 		$temperaturesensor = $this->ReadPropertyInteger("TemperatureSensor");
