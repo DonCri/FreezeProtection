@@ -121,7 +121,7 @@ class Freezeprotection extends IPSModule {
 					$this->SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
 					$this->SetValue("RainDelayActive", true);
 				} 			
-			break
+			//break
 		}
 	}
 
