@@ -145,7 +145,7 @@ class Freezeprotection extends IPSModule {
 	  	if($rain && $tempReached) {
 			$this->SetValue("FreezeAlert", true);
 		} else {
-			$this->SetValue("FreezeAlert", false);
+			//$this->SetValue("FreezeAlert", false);
 		}
 	}
 	
