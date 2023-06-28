@@ -57,7 +57,7 @@ class Freezeprotection extends IPSModule {
 				
 		
 		// Set timer for delayed rain deactivation 
-		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck(" . "$" . "_IPS['TARGET']);"); 
+		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainDeactivate(" . "$" . "_IPS['TARGET']);"); 
 	
 	}
 
@@ -110,20 +110,20 @@ class Freezeprotection extends IPSModule {
 		$rainSensor = GetValue($this->ReadPropertyInteger("RainSensor"));
 		$rainDelay = $this->GetValue("RainDelayActive");
 		$rainDelayInterval = $this->GetValue("RainDelay") * 2000; // Intervalltime in milliseconds 3600000
-		switch ($_IPS['SENDER']) {
-			case 'TimerEvent':
-				if(!$rainSensor) {
-					$this->SetTimerInterval("TimerForRainDelay", 0);
-					$this->SetValue("RainDelayActive", false);
-				}
-			break;
-			
-			default:
-				if($rainSensor && !$rainDelay) {
-					$this->SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
-					$this->SetValue("RainDelayActive", true);
-				} 			
-		}
+
+		if($rainSensor && !$rainDelay) {
+			$this->SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
+			$this->SetValue("RainDelayActive", true);
+		} 			
+	}
+
+		public function RainDeactivate() {
+		$rainSensor = GetValue($this->ReadPropertyInteger("RainSensor"));
+
+		if(!$rainSensor) {
+			$this->SetTimerInterval("TimerForRainDelay", 0);
+			$this->SetValue("RainDelayActive", false);
+		}		
 	}
 
 	public function TemperatureCheck() {
