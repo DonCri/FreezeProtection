@@ -64,7 +64,11 @@ class Freezeprotection extends IPSModule {
     public function RequestAction($Ident, $Value) {
 		switch ($Ident) {
   			case "STATUS":
-  				SetValue($this->GetIDForIdent($Ident), $Value);
+				SetValue($this->GetIDForIdent($Ident), $Value);
+				$status = $this->GetValue("STATUS");
+				if(!$status) {
+					$this->SetValue("FreezeAlert", false);
+				}
 			break;
 
 			case "SollTempToActivate":
@@ -150,8 +154,6 @@ class Freezeprotection extends IPSModule {
 			} elseif(!$tempReached) {
 				$this->SetValue("FreezeAlert", false);
 			}
-		} else {
-			$this->SetValue("FreezeAlert", false);
 		}
 	}
 }
