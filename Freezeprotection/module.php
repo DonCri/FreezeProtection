@@ -114,14 +114,13 @@ class Freezeprotection extends IPSModule {
 			case 'TimerEvent':
 				$this->SetTimerInterval("TimerForRainDelay", 0);
 				$this->SetValue("RainDelayActive", false);
-			break
+			break;
 			
 			default:
 				if($rainSensor && !$rainDelay) {
 					$this->SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
 					$this->SetValue("RainDelayActive", true);
 				} 			
-			//break
 		}
 	}
 
