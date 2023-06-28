@@ -57,7 +57,7 @@ class Freezeprotection extends IPSModule {
 				
 		
 		// Set timer for delayed rain deactivation 
-		//$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck($_IPS[\'TARGET\']);"); 
+		$this->RegisterTimer("TimerForRainDelay", 0, "BRELAG_RainCheck($_IPS[\'TARGET\']);"); 
 	
 	}
 
