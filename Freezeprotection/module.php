@@ -140,15 +140,20 @@ class Freezeprotection extends IPSModule {
 	}
 
 	public function FreezeCheck() {
+		$status = $this->GetValue("STATUS");
 		$rain = $this->GetValue("RainDelayActive");
 		$tempReached = $this->GetValue("TemperatureReached");
-	  	if($rain && $tempReached) {
-			$this->SetValue("FreezeAlert", true);
-		} elseif(!$tempReached) {
+		
+		if($status) {
+			if($rain && $tempReached) {
+				$this->SetValue("FreezeAlert", true);
+			} elseif(!$tempReached) {
+				$this->SetValue("FreezeAlert", false);
+			}
+		} else {
 			$this->SetValue("FreezeAlert", false);
 		}
 	}
-	
 }
 
 
