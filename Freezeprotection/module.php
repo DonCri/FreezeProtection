@@ -112,8 +112,10 @@ class Freezeprotection extends IPSModule {
 		$rainDelayInterval = $this->GetValue("RainDelay") * 2000; // Intervalltime in milliseconds 3600000
 		switch ($_IPS['SENDER']) {
 			case 'TimerEvent':
-				$this->SetTimerInterval("TimerForRainDelay", 0);
-				$this->SetValue("RainDelayActive", false);
+				if(!$rainSensor) {
+					$this->SetTimerInterval("TimerForRainDelay", 0);
+					$this->SetValue("RainDelayActive", false);
+				}
 			break;
 			
 			default:
