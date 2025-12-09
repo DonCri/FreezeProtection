@@ -123,7 +123,7 @@ class Freezeprotection extends IPSModule
   {
     $rainSensor = GetValue($this->ReadPropertyInteger("RainSensor"));
     $rainDelay = $this->GetValue("RAIN_DELAY_STATUS");
-    $rainDelayInterval = $this->GetValue("RAIN_DELAY") * 3600000; // Intervalltime in milliseconds 3600000
+    $rainDelayInterval = $this->GetValue("RAIN_DELAY") * 1000; // Intervalltime in milliseconds 3600000
 
     if ($rainSensor && !$rainDelay) {
       $this->SetTimerInterval("TimerForRainDelay", $rainDelayInterval);
